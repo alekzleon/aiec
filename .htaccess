@@ -1,0 +1,65 @@
+# Habilitar Rewrite Engine
+RewriteEngine On
+
+# Redirigir errores 404 a 404.html
+ErrorDocument 404 /404.html
+
+# Evitar el listado de directorios (seguridad)
+Options -Indexes
+
+# Forzar HTTPS (Si el sitio usa SSL, descomenta estas líneas)
+ RewriteCond %{HTTPS} off
+ RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+# Redirigir "www" a versión sin "www" (opcional)
+ RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+ RewriteRule ^(.*)$ http://%1/$1 [R=301,L]
+
+# Redirigir tráfico HTTP a HTTPS (opcional)
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+# Configuración de caché para mejorar velocidad
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/jpg "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/pdf "access plus 1 month"
+    ExpiresByType text/javascript "access plus 1 month"
+    ExpiresByType text/html "access plus 1 hour"
+    ExpiresByType application/xhtml+xml "access plus 1 hour"
+</IfModule>
+
+# Proteger archivo .htaccess y .htpasswd
+<FilesMatch "^\.ht">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
+
+# Bloquear acceso a archivos sensibles
+<FilesMatch "(^.*\.ini|^.*\.log|^.*\.sql|^.*\.bak|^.*\.sh)$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
+
+# Permitir compresión Gzip para mejorar velocidad
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/xml
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE application/xml
+    AddOutputFilterByType DEFLATE application/xhtml+xml
+    AddOutputFilterByType DEFLATE application/rss+xml
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/x-javascript
+</IfModule>
+
+# Permitir CORS para compartir recursos con otros dominios (opcional)
+# Header set Access-Control-Allow-Origin "*"
+
+# Redirección 301 (Ejemplo: cambiar de dominio)
+# Redirect 301 /antigua-pagina.html https://tudominio.com/nueva-pagina.html
