@@ -15,9 +15,18 @@
     object-fit: cover; /* Recorta la imagen sin distorsionarla */
   }
 
+  .logo_mb{
+    width: 40%;
+  }
+
   /* Ajustes específicos para escritorio (opcional) */
   @media (max-width: 767px) {
   .bg-holder .bg-video{position:absolute;display:block;z-index:-1;top:0;left:-360px;-o-object-fit:cover;object-fit:cover;height:100%;min-width:100%}
+
+    .logo_mb{
+      width: 100%;      
+    }
+
 }
 
   
